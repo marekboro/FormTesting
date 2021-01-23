@@ -1,0 +1,58 @@
+<div class="container">
+    <h1>User Form</h1>
+    <form (ngSubmit)= "onSubmit()" #userForm="ngForm"  >
+        <div class="form-group">
+            <label for="firstName">First Name </label>
+            <input type="text" 
+                class="form-control" 
+                id="firstName" 
+                [(ngModel)]="model.firstName" 
+                name="firstName" 
+                #firstName ="ngModel"
+                minlength="3"
+            >
+            <div *ngIf="firstName.touched && firstName.errors">
+                <div class="alert alert-danger" 
+                *ngIf="firstName.errors.required">
+                    First name is required    
+                </div>
+                <div class="alert alert-danger"
+                *ngIf="firstName.errors.minlength">
+                    First name should be at least 3 characters. 
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email </label>
+            <input type="text" 
+            class="form-control" 
+            id="email"
+            [(ngModel)]="model.email" 
+            name="email"
+            #email="ngModel"
+            >
+            <div class="alert alert-danger"
+            *ngIf="email.touched && !email.valid"> Email is required
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="country">Country </label>
+           <select class="form-control" id="country" [(ngModel)]="model.country" name="country"> 
+               <option selected='false' disabled='disabled'> Choose country </option>
+               <option *ngFor="let country of countries" [value]="country" > {{country}} </option>
+           </select>
+        </div>
+        <button type="submit" class="btn btn-default" 
+        [disabled] = "!userForm.form.valid"> Submit </button>
+    </form>
+</div>
+<div [hidden]= "!submitted">
+You submitted the follwong: <br>
+First name: {{model.firstName}} <br>
+Email     : {{model.email}} <br>
+Coutry    : {{model.country}} <br>
+<button class="btn btn-default" 
+(click)="submitted=false"> Remove </button>
+
+</div>
